@@ -53,8 +53,27 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid rgba(242, 140, 40, 0.62);
+  outline: 3px solid var(--orange-dark);
   outline-offset: 3px;
+}
+
+.skip-link {
+  background: #fff;
+  border: 2px solid var(--orange-dark);
+  border-radius: 4px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+  left: 12px;
+  padding: 10px 14px;
+  position: fixed;
+  top: 12px;
+  transform: translateY(calc(-100% - 16px));
+  z-index: 20;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 .site-header {
@@ -852,12 +871,32 @@ textarea:focus-visible {
 
 .booking-form .consent-label {
   align-items: start;
-  color: #697483;
+  color: #485568;
   display: flex;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 400;
   gap: 8px;
   line-height: 1.5;
+}
+
+.consent-label a,
+.terms-section a {
+  color: #8c4f1b;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.terms-footer-links {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.terms-footer-links a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .button-full {

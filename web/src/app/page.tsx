@@ -34,7 +34,7 @@ const services = [
 
 const phoneNumber = "0798873024";
 const whatsappNumber = "254798873024";
-const emailAddress = "bahatishalyn52@gmail.com";
+const emailAddress = "pjerrands01@gmail.com";
 
 type SubmissionState = "idle" | "submitting" | "success" | "error";
 
@@ -141,6 +141,7 @@ export default function Home() {
 
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header">
         <a className="brand" href="#home" aria-label="P&J's Errands and Deliveries home">
           <Image
@@ -174,7 +175,7 @@ export default function Home() {
         </a>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         <section className="hero" id="home">
           <div className="hero-layout">
             <div className="hero-copy">
@@ -371,7 +372,7 @@ export default function Home() {
               </details>
               <details className="faq-item">
                 <summary>How do I request an errand?</summary>
-                <p>Send a request using the booking form, or contact us directly on 0798873024 by phone or WhatsApp. You can also email bahatishalyn52@gmail.com. Share the service and relevant details so we can discuss and confirm your request.</p>
+                <p>Send a request using the booking form, or contact us directly on 0798873024 by phone or WhatsApp. You can also email pjerrands01@gmail.com. Share the service and relevant details so we can discuss and confirm your request.</p>
               </details>
               <details className="faq-item">
                 <summary>Is my booking confirmed when I submit a request?</summary>
@@ -551,7 +552,8 @@ export default function Home() {
                   <label className="consent-label">
                     <input name="consent" type="checkbox" required />
                     <span>
-                      I agree that P&J can use these details to respond to my booking request.
+                      I agree that P&amp;J may use these details to handle my request, as explained in the{" "}
+                      <a href="/privacy">Privacy Notice</a>.
                     </span>
                   </label>
                   {submissionState === "error" && (
@@ -601,6 +603,7 @@ export default function Home() {
         <p>Fast & reliable. We handle your errands so you don&apos;t have to.</p>
         <span className="footer-meta">Nairobi + nearby areas <i>·</i> Mon–Sat, 9:30am–7pm</span>
         <div className="footer-end">
+          <a href="/privacy">Privacy Notice</a>
           <a href="/terms">Terms &amp; Conditions</a>
           <span className="copyright">© P&J&apos;s Errands and Deliveries</span>
         </div>

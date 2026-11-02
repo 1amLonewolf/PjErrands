@@ -8,11 +8,12 @@ export const metadata: Metadata = {
 };
 
 const whatsappNumber = "254798873024";
-const emailAddress = "bahatishalyn52@gmail.com";
+const emailAddress = "pjerrands01@gmail.com";
 
 export default function TermsPage() {
   return (
     <>
+      <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header legal-header">
         <Link className="brand" href="/" aria-label="P&J's Errands and Deliveries home">
           <span className="brand-mark" aria-hidden="true">P<span>&amp;</span>J</span>
@@ -25,7 +26,7 @@ export default function TermsPage() {
         </Link>
       </header>
 
-      <main className="terms-main">
+      <main className="terms-main" id="main-content" tabIndex={-1}>
         <div className="terms-wrap">
           <Link className="terms-back-link" href="/">← Back to P&amp;J&apos;s</Link>
           <p className="eyebrow terms-eyebrow">CUSTOMER INFORMATION</p>
@@ -36,8 +37,8 @@ export default function TermsPage() {
             <strong>Business review required before publication</strong>
             <p>
               This draft reflects the details currently confirmed for the
-              website. P&amp;J should review the pricing, cancellation, privacy,
-              and service policies below before treating these terms as final.
+              website. P&amp;J should review the pricing, cancellation, and
+              service policies below before treating these terms as final.
             </p>
           </aside>
 
@@ -131,9 +132,9 @@ export default function TermsPage() {
             </p>
             <p>
               Contact P&amp;J if you have a question about information you have
-              submitted or want to request its correction or deletion. A
-              separate privacy notice should explain the final data handling
-              and retention practices before the website launches.
+              submitted or want to request its correction or deletion. Read our{" "}
+              <Link href="/privacy">Privacy Notice</Link> for details about
+              handling and retention.
             </p>
           </section>
 
@@ -154,9 +155,8 @@ export default function TermsPage() {
             <strong>Before these terms go live</strong>
             <p>
               Confirm nearby-area coverage, how charges are calculated,
-              cancellation/refund handling, any service exclusions, and the
-              business&apos;s privacy and data-retention practices. Consider
-              having the final terms reviewed for applicable Kenyan
+              cancellation/refund handling, and any service exclusions.
+              Consider having the final terms reviewed for applicable Kenyan
               requirements.
             </p>
           </aside>
@@ -168,7 +168,13 @@ export default function TermsPage() {
           <span className="brand-mark" aria-hidden="true">P<span>&amp;</span>J</span>
           <span className="brand-name">P&amp;J&apos;s <strong>Errands &amp; Deliveries</strong></span>
         </Link>
-        <span>Nairobi and nearby areas · Mon–Sat, 9:30am–7:00pm</span>
+        <span className="terms-footer-links">
+          <Link href="/privacy">Privacy Notice</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/terms">Terms &amp; Conditions</Link>
+          <span aria-hidden="true">·</span>
+          Nairobi and nearby areas · Mon–Sat, 9:30am–7:00pm
+        </span>
       </footer>
     </>
   );
