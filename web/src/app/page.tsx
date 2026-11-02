@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { FormEvent } from "react";
-import emailjs from "@emailjs/browser";
 import { serviceNames } from "@/lib/services";
 
 const services = [
@@ -90,79 +89,13 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(booking),
       });
-      const result = (await response.json()) as { message?: string };
+      const result = (await response.json()) as {
+        message?: string;
+        notificationFailed?: boolean;
+      };
 
       if (!response.ok) {
         throw new Error(result.message ?? "We couldn’t save your request. Please try again.");
-      }
-
-      const emailServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
-      const businessTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_BUSINESS;
-      const customerTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CLIENT;
-      const emailPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
-      let emailFailed = false;
-
-      if (!emailServiceId || !businessTemplateId || !customerTemplateId || !emailPublicKey) {
-        console.error("EmailJS booking notification settings are incomplete.");
-        emailFailed = true;
-      } else {
-        const bookingTime = booking.preferredTime
-          ? new Date(booking.preferredTime).toLocaleString("en-KE")
-          : "Not specified";
-        const instructions = [
-          booking.pickupLocation && `Pickup location: ${booking.pickupLocation}`,
-          booking.dropoffLocation && `Drop-off location: ${booking.dropoffLocation}`,
-          booking.shoppingList && `Shopping list: ${booking.shoppingList}`,
-          booking.budget && `Shopping budget: KES ${booking.budget}`,
-          booking.officeName && `Bank/office: ${booking.officeName}`,
-          booking.billDetails && `Bill details: ${booking.billDetails}`,
-          booking.parcelDetails && `Parcel: ${booking.parcelDetails}`,
-          booking.details && `Additional details: ${booking.details}`,
-        ]
-          .filter(Boolean)
-          .join("\n");
-        const templateParams = {
-          from_name: booking.fullName,
-          from_email: booking.email,
-          phone: booking.phone,
-          service: booking.service,
-          booking_time: bookingTime,
-          instructions: instructions || "No additional instructions provided.",
-          to_email: booking.email,
-          customer_name: booking.fullName,
-          customer_phone: booking.phone,
-          customer_email: booking.email,
-          pickup_location: booking.pickupLocation,
-          dropoff_location: booking.dropoffLocation,
-          shopping_list: booking.shoppingList,
-          budget_kes: booking.budget,
-          office_name: booking.officeName,
-          bill_details: booking.billDetails,
-          parcel_details: booking.parcelDetails,
-          preferred_time: booking.preferredTime,
-          details: booking.details,
-        };
-
-        try {
-          await emailjs.send(emailServiceId, businessTemplateId, templateParams, {
-            publicKey: emailPublicKey,
-          });
-        } catch (error) {
-          console.error("Business booking notification email failed.", error);
-          emailFailed = true;
-        }
-
-        if (booking.email) {
-          await new Promise((resolve) => setTimeout(resolve, 1100));
-          try {
-            await emailjs.send(emailServiceId, customerTemplateId, templateParams, {
-              publicKey: emailPublicKey,
-            });
-          } catch (error) {
-            console.error("Customer booking confirmation email failed.", error);
-            emailFailed = true;
-          }
-        }
       }
 
       const message = [
@@ -187,7 +120,7 @@ export default function Home() {
       setWhatsappUrl(
         `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
       );
-      setNotificationWarning(emailFailed);
+      setNotificationWarning(result.notificationFailed === true);
       setSubmissionState("success");
       form.reset();
       setSelectedService("");
