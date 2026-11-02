@@ -39,9 +39,11 @@ for browser use; never put an EmailJS private key in a `NEXT_PUBLIC_` variable.
 
 Create two EmailJS templates. Configure the business template to send to the
 business inbox. Configure the customer template's recipient as `{{to_email}}`.
-Both templates can use `customer_name`, `customer_phone`, `customer_email`,
-`service`, `pickup_location`, `dropoff_location`, `shopping_list`, `budget_kes`,
-`office_name`, `bill_details`, `parcel_details`, `preferred_time`, and `details`.
+Both templates can use `from_name`, `from_email`, `phone`, `service`,
+`booking_time`, `instructions`, and `to_email`, as well as
+`customer_name`, `customer_phone`, `customer_email`, `pickup_location`,
+`dropoff_location`, `shopping_list`, `budget_kes`, `office_name`,
+`bill_details`, `parcel_details`, `preferred_time`, and `details`.
 The customer template should include only a brief booking acknowledgement and
 avoid repeating sensitive request details.
 Disable EmailJS email history for these templates so booking details are not

@@ -106,11 +106,32 @@ export default function Home() {
         console.error("EmailJS booking notification settings are incomplete.");
         emailFailed = true;
       } else {
+        const bookingTime = booking.preferredTime
+          ? new Date(booking.preferredTime).toLocaleString("en-KE")
+          : "Not specified";
+        const instructions = [
+          booking.pickupLocation && `Pickup location: ${booking.pickupLocation}`,
+          booking.dropoffLocation && `Drop-off location: ${booking.dropoffLocation}`,
+          booking.shoppingList && `Shopping list: ${booking.shoppingList}`,
+          booking.budget && `Shopping budget: KES ${booking.budget}`,
+          booking.officeName && `Bank/office: ${booking.officeName}`,
+          booking.billDetails && `Bill details: ${booking.billDetails}`,
+          booking.parcelDetails && `Parcel: ${booking.parcelDetails}`,
+          booking.details && `Additional details: ${booking.details}`,
+        ]
+          .filter(Boolean)
+          .join("\n");
         const templateParams = {
+          from_name: booking.fullName,
+          from_email: booking.email,
+          phone: booking.phone,
+          service: booking.service,
+          booking_time: bookingTime,
+          instructions: instructions || "No additional instructions provided.",
+          to_email: booking.email,
           customer_name: booking.fullName,
           customer_phone: booking.phone,
           customer_email: booking.email,
-          service: booking.service,
           pickup_location: booking.pickupLocation,
           dropoff_location: booking.dropoffLocation,
           shopping_list: booking.shoppingList,
@@ -118,9 +139,7 @@ export default function Home() {
           office_name: booking.officeName,
           bill_details: booking.billDetails,
           parcel_details: booking.parcelDetails,
-          preferred_time: booking.preferredTime
-            ? new Date(booking.preferredTime).toLocaleString("en-KE")
-            : "",
+          preferred_time: booking.preferredTime,
           details: booking.details,
         };
 
@@ -136,15 +155,9 @@ export default function Home() {
         if (booking.email) {
           await new Promise((resolve) => setTimeout(resolve, 1100));
           try {
-            await emailjs.send(
-              emailServiceId,
-              customerTemplateId,
-              {
-                ...templateParams,
-                to_email: booking.email,
-              },
-              { publicKey: emailPublicKey },
-            );
+            await emailjs.send(emailServiceId, customerTemplateId, templateParams, {
+              publicKey: emailPublicKey,
+            });
           } catch (error) {
             console.error("Customer booking confirmation email failed.", error);
             emailFailed = true;
