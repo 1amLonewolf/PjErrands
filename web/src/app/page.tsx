@@ -162,7 +162,15 @@ export default function Home() {
           <a href="#contact">Contact</a>
         </nav>
         <a className="button button-small button-orange header-cta" href="#book">
-          Book an errand <span aria-hidden="true">↗</span>
+          Book an errand
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="booking-icon"
+            height={24}
+            src="/booking-icon.png"
+            width={24}
+          />
         </a>
       </header>
 
@@ -178,7 +186,15 @@ export default function Home() {
               </p>
               <div className="hero-actions">
                 <a className="button button-orange" href="#book">
-                  Book an errand <span aria-hidden="true">↗</span>
+                  Book an errand
+                  <Image
+                    alt=""
+                    aria-hidden="true"
+                    className="booking-icon"
+                    height={24}
+                    src="/booking-icon.png"
+                    width={24}
+                  />
                 </a>
                 <a
                   className="button button-outline"

@@ -145,6 +145,12 @@ textarea:focus-visible {
   background: #ffa23f;
 }
 
+.booking-icon {
+  flex: 0 0 auto;
+  height: 24px;
+  width: 24px;
+}
+
 .button-small {
   font-size: 11px;
   min-height: 42px;
