@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import type { FormEvent } from "react";
+import emailjs from "@emailjs/browser";
 import { serviceNames } from "@/lib/services";
 
 const services = [
@@ -42,6 +43,7 @@ export default function Home() {
   const [selectedService, setSelectedService] = useState("");
   const [submissionState, setSubmissionState] = useState<SubmissionState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [notificationWarning, setNotificationWarning] = useState(false);
   const [whatsappUrl, setWhatsappUrl] = useState("");
   const needsLocations =
     selectedService === serviceNames.delivery || selectedService === serviceNames.parcel;
@@ -54,6 +56,7 @@ export default function Home() {
     event.preventDefault();
     setSubmissionState("submitting");
     setErrorMessage("");
+    setNotificationWarning(false);
     setWhatsappUrl("");
 
     const form = event.currentTarget;
@@ -63,6 +66,7 @@ export default function Home() {
     const booking = {
       fullName: String(formData.get("fullName") ?? ""),
       phone: String(formData.get("phone") ?? ""),
+      email: String(formData.get("email") ?? "").trim(),
       service: String(formData.get("service") ?? ""),
       pickupLocation: String(formData.get("pickupLocation") ?? ""),
       dropoffLocation: String(formData.get("dropoffLocation") ?? ""),
@@ -92,6 +96,62 @@ export default function Home() {
         throw new Error(result.message ?? "We couldn’t save your request. Please try again.");
       }
 
+      const emailServiceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const businessTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_BUSINESS;
+      const customerTemplateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_CLIENT;
+      const emailPublicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+      let emailFailed = false;
+
+      if (!emailServiceId || !businessTemplateId || !customerTemplateId || !emailPublicKey) {
+        console.error("EmailJS booking notification settings are incomplete.");
+        emailFailed = true;
+      } else {
+        const templateParams = {
+          customer_name: booking.fullName,
+          customer_phone: booking.phone,
+          customer_email: booking.email,
+          service: booking.service,
+          pickup_location: booking.pickupLocation,
+          dropoff_location: booking.dropoffLocation,
+          shopping_list: booking.shoppingList,
+          budget_kes: booking.budget,
+          office_name: booking.officeName,
+          bill_details: booking.billDetails,
+          parcel_details: booking.parcelDetails,
+          preferred_time: booking.preferredTime
+            ? new Date(booking.preferredTime).toLocaleString("en-KE")
+            : "",
+          details: booking.details,
+        };
+
+        try {
+          await emailjs.send(emailServiceId, businessTemplateId, templateParams, {
+            publicKey: emailPublicKey,
+          });
+        } catch (error) {
+          console.error("Business booking notification email failed.", error);
+          emailFailed = true;
+        }
+
+        if (booking.email) {
+          await new Promise((resolve) => setTimeout(resolve, 1100));
+          try {
+            await emailjs.send(
+              emailServiceId,
+              customerTemplateId,
+              {
+                ...templateParams,
+                to_email: booking.email,
+              },
+              { publicKey: emailPublicKey },
+            );
+          } catch (error) {
+            console.error("Customer booking confirmation email failed.", error);
+            emailFailed = true;
+          }
+        }
+      }
+
       const message = [
         "Hello P&J's Errands and Deliveries, I'd like to request an errand.",
         `Name: ${booking.fullName}`,
@@ -114,6 +174,7 @@ export default function Home() {
       setWhatsappUrl(
         `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
       );
+      setNotificationWarning(emailFailed);
       setSubmissionState("success");
       form.reset();
       setSelectedService("");
@@ -394,6 +455,12 @@ export default function Home() {
                 <p className="eyebrow">REQUEST RECEIVED</p>
                 <h3>Thanks for reaching out.</h3>
                 <p>Your request has been saved. Continue on WhatsApp so we can confirm the details.</p>
+                {notificationWarning && (
+                  <p className="form-error" role="status">
+                    Your booking is saved, but an email notification could not be sent.
+                    Please continue on WhatsApp so we can confirm your request.
+                  </p>
+                )}
                 <a
                   className="button button-orange button-full"
                   href={whatsappUrl}
@@ -434,6 +501,16 @@ export default function Home() {
                       <input name="phone" type="tel" autoComplete="tel" maxLength={20} placeholder="e.g. 0712 345 678" required />
                     </label>
                   </div>
+                  <label>
+                    Email address <span className="optional-mark">(optional)</span>
+                    <input
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      maxLength={254}
+                      placeholder="For your booking confirmation"
+                    />
+                  </label>
                   <label>
                     Service needed <span className="required-mark">*</span>
                     <select

@@ -788,6 +788,12 @@ textarea:focus-visible {
   color: #bb6721;
 }
 
+.booking-form .optional-mark {
+  color: #78808a;
+  font-size: 8px;
+  font-weight: 400;
+}
+
 .booking-form input:not([type="checkbox"]),
 .booking-form select,
 .booking-form textarea {

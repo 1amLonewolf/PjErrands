@@ -38,6 +38,7 @@ export async function POST(request: Request) {
 
   const fullName = getText(payload.fullName);
   const phone = getText(payload.phone);
+  const email = getText(payload.email);
   const service = getText(payload.service);
   const pickupLocation = getText(payload.pickupLocation);
   const dropoffLocation = getText(payload.dropoffLocation);
@@ -60,6 +61,9 @@ export async function POST(request: Request) {
     !/^[+()\d\s-]+$/.test(phone) ||
     phoneDigits.length < 7 ||
     phoneDigits.length > 15 ||
+    (payload.email !== undefined && typeof payload.email !== "string") ||
+    email.length > 254 ||
+    (email !== "" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ||
     !services.has(service) ||
     !isWithinLength(pickupLocation, 200) ||
     !isWithinLength(dropoffLocation, 200) ||
@@ -118,6 +122,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         full_name: fullName,
         phone,
+        email: email || null,
         service,
         pickup_location: pickupLocation || null,
         dropoff_location: dropoffLocation || null,

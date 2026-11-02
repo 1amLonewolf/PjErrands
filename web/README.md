@@ -28,6 +28,31 @@ Use the project's public anon key only. Do not put a service-role key in the app
 
 If Supabase is not configured or a request cannot be stored, the form reports an error and does not show a success state or WhatsApp follow-up link.
 
+## Booking email notifications
+
+The booking form uses EmailJS after Supabase confirms a request was saved. Set
+`NEXT_PUBLIC_EMAILJS_SERVICE_ID`, `NEXT_PUBLIC_EMAILJS_PUBLIC_KEY`,
+`NEXT_PUBLIC_EMAILJS_TEMPLATE_BUSINESS`, and
+`NEXT_PUBLIC_EMAILJS_TEMPLATE_CLIENT` in `.env.local` for local development and
+in the Vercel project settings for production. The EmailJS public key is intended
+for browser use; never put an EmailJS private key in a `NEXT_PUBLIC_` variable.
+
+Create two EmailJS templates. Configure the business template to send to the
+business inbox. Configure the customer template's recipient as `{{to_email}}`.
+Both templates can use `customer_name`, `customer_phone`, `customer_email`,
+`service`, `pickup_location`, `dropoff_location`, `shopping_list`, `budget_kes`,
+`office_name`, `bill_details`, `parcel_details`, `preferred_time`, and `details`.
+The customer template should include only a brief booking acknowledgement and
+avoid repeating sensitive request details.
+Disable EmailJS email history for these templates so booking details are not
+retained in EmailJS logs longer than needed.
+
+Before deploying this change, apply
+`supabase/migrations/20261102000000_add_booking_email.sql` to the configured
+Supabase project. Customer email is optional; when provided, it is stored with
+the booking and used for the acknowledgement. If an email fails, the booking
+remains saved and the page offers WhatsApp follow-up.
+
 ## Validation
 
 ```powershell
