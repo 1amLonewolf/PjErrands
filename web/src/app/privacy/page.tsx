@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -16,7 +17,14 @@ export default function PrivacyPage() {
       <a className="skip-link" href="#main-content">Skip to content</a>
       <header className="site-header legal-header">
         <Link className="brand" href="/" aria-label="P&J's Errands and Deliveries home">
-          <span className="brand-mark" aria-hidden="true">P<span>&amp;</span>J</span>
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="brand-mark"
+            height={500}
+            src="/pj-logo.png"
+            width={500}
+          />
           <span className="brand-name">
             P&amp;J&apos;s <strong>Errands &amp; Deliveries</strong>
           </span>
@@ -120,7 +128,14 @@ export default function PrivacyPage() {
 
       <footer className="terms-footer">
         <Link className="brand footer-brand" href="/">
-          <span className="brand-mark" aria-hidden="true">P<span>&amp;</span>J</span>
+          <Image
+            alt=""
+            aria-hidden="true"
+            className="brand-mark"
+            height={500}
+            src="/pj-logo.png"
+            width={500}
+          />
           <span className="brand-name">P&amp;J&apos;s <strong>Errands &amp; Deliveries</strong></span>
         </Link>
         <span>Nairobi and nearby areas · Mon–Sat, 9:30am–7:00pm</span>
