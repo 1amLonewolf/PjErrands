@@ -238,7 +238,10 @@ textarea:focus-visible {
 }
 
 .whatsapp-icon {
-  font-size: 16px;
+  flex: 0 0 auto;
+  height: 24px;
+  object-fit: contain;
+  width: 24px;
 }
 
 .hero-note {
@@ -439,6 +442,12 @@ textarea:focus-visible {
   height: 42px;
   justify-content: center;
   width: 42px;
+}
+
+.service-icon-image {
+  height: 30px;
+  object-fit: contain;
+  width: 30px;
 }
 
 .service-number {
@@ -1048,6 +1057,18 @@ textarea:focus-visible {
   height: 29px;
   justify-content: center;
   width: 29px;
+}
+
+.whatsapp-contact-icon {
+  background: none;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+.contact-image-symbol {
+  background: none;
+  border-radius: 0;
+  object-fit: contain;
 }
 
 .contact-links small,
@@ -1727,9 +1748,23 @@ textarea:focus-visible {
     color: var(--navy);
   }
 
+  .mobile-contact-icon {
+    flex: 0 0 auto;
+    height: 22px;
+    object-fit: contain;
+    width: 22px;
+  }
+
   .mobile-whatsapp {
     background: var(--navy);
     color: #fff;
+  }
+
+  .mobile-whatsapp-icon {
+    flex: 0 0 auto;
+    height: 22px;
+    object-fit: contain;
+    width: 22px;
   }
 }
 

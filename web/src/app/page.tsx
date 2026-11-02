@@ -8,25 +8,25 @@ import { serviceNames } from "@/lib/services";
 const services = [
   {
     number: "01",
-    icon: "↗",
+    icon: "/service-delivery.png",
     title: serviceNames.delivery,
     description: "Door-to-door delivery for documents, packages, and everyday essentials.",
   },
   {
     number: "02",
-    icon: "▱",
+    icon: "/service-shopping.png",
     title: serviceNames.shopping,
     description: "Share your list and budget. We’ll shop while you get on with your day.",
   },
   {
     number: "03",
-    icon: "✓",
+    icon: "/service-queueing.png",
     title: serviceNames.queueing,
     description: "We can queue and handle bill payments at banks, offices, and more.",
   },
   {
     number: "04",
-    icon: "□",
+    icon: "/service-parcel.png",
     title: serviceNames.parcel,
     description: "Have a parcel collected and delivered safely across Nairobi and nearby areas.",
   },
@@ -179,7 +179,15 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <span className="whatsapp-icon" aria-hidden="true">◉</span> Chat on WhatsApp
+                  <Image
+                    alt=""
+                    aria-hidden="true"
+                    className="whatsapp-icon"
+                    height={24}
+                    src="/whatsapp-icon.png"
+                    width={24}
+                  />
+                  Chat on WhatsApp
                 </a>
               </div>
               <div className="hero-note">
@@ -263,7 +271,16 @@ export default function Home() {
             {services.map((service) => (
               <article className="service-card" key={service.number}>
                 <div className="service-card-top">
-                  <span className="service-icon" aria-hidden="true">{service.icon}</span>
+                  <span className="service-icon">
+                    <Image
+                      alt=""
+                      aria-hidden="true"
+                      className="service-icon-image"
+                      height={30}
+                      src={service.icon}
+                      width={30}
+                    />
+                  </span>
                   <span className="service-number">{service.number}</span>
                 </div>
                 <h3>{service.title}</h3>
@@ -383,6 +400,14 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                 >
+                  <Image
+                    alt=""
+                    aria-hidden="true"
+                    className="whatsapp-icon"
+                    height={24}
+                    src="/whatsapp-icon.png"
+                    width={24}
+                  />
                   Continue on WhatsApp <span aria-hidden="true">↗</span>
                 </a>
                 <button className="text-link new-request" onClick={() => setSubmissionState("idle")} type="button">
@@ -515,9 +540,9 @@ export default function Home() {
               <h2>Let’s make your day<br />a little <span>lighter.</span></h2>
             </div>
             <div className="contact-links">
-              <a href={`tel:+${whatsappNumber}`}><span className="contact-symbol">☎</span><span><small>Give us a call</small><strong>{phoneNumber}</strong></span><b>↗</b></a>
-              <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer"><span className="contact-symbol">◉</span><span><small>Chat on WhatsApp</small><strong>{phoneNumber}</strong></span><b>↗</b></a>
-              <a href={`mailto:${emailAddress}`}><span className="contact-symbol">✉</span><span><small>Send us an email</small><strong>{emailAddress}</strong></span><b>↗</b></a>
+              <a href={`tel:+${whatsappNumber}`}><Image alt="" aria-hidden="true" className="contact-symbol contact-image-symbol" height={29} src="/call-icon.png" width={29} /><span><small>Give us a call</small><strong>{phoneNumber}</strong></span><b>↗</b></a>
+              <a href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer"><Image alt="" aria-hidden="true" className="contact-symbol whatsapp-contact-icon" height={29} src="/whatsapp-icon.png" width={29} /><span><small>Chat on WhatsApp</small><strong>{phoneNumber}</strong></span><b>↗</b></a>
+              <a href={`mailto:${emailAddress}`}><Image alt="" aria-hidden="true" className="contact-symbol contact-image-symbol" height={29} src="/email-icon.png" width={29} /><span><small>Send us an email</small><strong>{emailAddress}</strong></span><b>↗</b></a>
             </div>
           </div>
         </section>
@@ -543,8 +568,8 @@ export default function Home() {
       </footer>
 
       <nav className="mobile-action-bar" aria-label="Quick contact actions">
-        <a className="mobile-call" href={`tel:+${whatsappNumber}`}>☎ <span>Call</span></a>
-        <a className="mobile-whatsapp" href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer">◉ <span>WhatsApp us</span></a>
+        <a className="mobile-call" href={`tel:+${whatsappNumber}`}><Image alt="" aria-hidden="true" className="mobile-contact-icon" height={22} src="/call-icon.png" width={22} /><span>Call</span></a>
+        <a className="mobile-whatsapp" href={`https://wa.me/${whatsappNumber}`} target="_blank" rel="noreferrer"><Image alt="" aria-hidden="true" className="mobile-whatsapp-icon" height={22} src="/whatsapp-icon.png" width={22} /><span>WhatsApp us</span></a>
       </nav>
     </>
   );

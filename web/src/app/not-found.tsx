@@ -45,6 +45,14 @@ export default function NotFound() {
               target="_blank"
               rel="noreferrer"
             >
+              <Image
+                alt=""
+                aria-hidden="true"
+                className="whatsapp-icon"
+                height={24}
+                src="/whatsapp-icon.png"
+                width={24}
+              />
               Message us on WhatsApp
             </a>
           </div>
